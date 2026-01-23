@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment 3 – Responsive CSS Grid Layout</title>
+
+  <style>
+    /* =============================================
+       Reset & General Styles
+    ============================================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      background-color: #f9fafb;
+      color: #111827;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* =============================================
+       MAIN GRID CONTAINER
+       Mobile-first base (single column stack)
+    ============================================= */
+    .site-wrapper {
+      display: grid;
+      min-height: 100vh;
+
+      /* Default mobile: everything stacks vertically */
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto 1fr auto;
+      grid-template-areas:
+        "header"
+        "sidebar"
+        "main"
+        "footer";
+    }
+
+    /* =============================================
+       Section Styles (used in all breakpoints)
+    ============================================= */
+    header {
+      grid-area: header;
+      background-color: #1d4ed8;
+      color: white;
+      padding: 1.5rem 1rem;
+      text-align: center;
+    }
+
+    aside {
+      grid-area: sidebar;
+      background-color: #f3f4f6;
+      padding: 1.5rem 1rem;
+      border-bottom: 1px solid #d1d5db;
+    }
+
+    main {
+      grid-area: main;
+      background-color: white;
+      padding: 1.5rem 1rem;
+    }
+
+    footer {
+      grid-area: footer;
+      background-color: #111827;
+      color: #d1d5db;
+      text-align: center;
+      padding: 1.2rem;
+      font-size: 0.95rem;
+    }
+
+    /* Content styling */
+    h1, h2 {
+      margin-bottom: 0.8rem;
+    }
+
+    nav ul {
+      list-style: none;
+    }
+
+    nav li {
+      margin: 0.6rem 0;
+    }
+
+    nav a {
+      color: #1e40af;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .card {
+      background-color: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      padding: 1.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    /* =============================================
+       TABLET & DESKTOP LAYOUTS
+    ============================================= */
+
+    /* Tablet: 600px – 900px
+       → Sidebar moves above main content (still single column)
+       → But we give more breathing room
+    */
+    @media (min-width: 600px) {
+      .site-wrapper {
+        /* Still 1 column – sidebar stays above main */
+        grid-template-columns: 1fr;
+        padding: 0 1.5rem;
+      }
+
+      header, aside, main, footer {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      aside {
+        border-bottom: 1px solid #d1d5db;
+        border-right: none;
+      }
+    }
+
+    /* Desktop: > 900px
+       → Sidebar left | Main right (side by side)
+    */
+    @media (min-width: 901px) {
+      .site-wrapper {
+        grid-template-columns: 260px 1fr;          /* fixed sidebar + flexible main */
+        grid-template-rows: auto 1fr auto;
+        grid-template-areas:
+          "header  header"
+          "sidebar main"
+          "footer  footer";
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      aside {
+        border-bottom: none;
+        border-right: 1px solid #d1d5db;
+      }
+
+      main {
+        padding: 2rem;
+      }
+
+      header {
+        padding: 2rem 2.5rem;
+      }
+
+      footer {
+        padding: 1.5rem 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="site-wrapper">
+
+    <header>
+      <h1>Header – Full Width</h1>
+    </header>
+
+    <aside>
+      <h2>Sidebar</h2>
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Profile</a></li>
+          <li><a href="#">Messages</a></li>
+          <li><a href="#">Settings</a></li>
+          <li><a href="#">Help</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main>
+      <h2>Main Content Area</h2>
+
+      <div class="card">
+        <h3>Section 1</h3>
+        <p>On wide screens (>900px) the sidebar appears on the left. Between 600–900px the sidebar sits above the main content. Below 600px everything stacks vertically.</p>
+      </div>
+
+      <div class="card">
+        <h3>Section 2</h3>
+        <p>This layout uses only CSS Grid + media queries. No frameworks, no flexbox. Resize your browser to see the changes.</p>
+      </div>
+    </main>
+
+    <footer>
+      <p>© 2026 CSS Grid Assignment 3</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

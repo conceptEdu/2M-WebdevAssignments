@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CSS Grid - Basic 3×2 Layout</title>
+  
+  <style>
+    /* =============================================
+       Reset & Base Styles
+    ============================================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #f5f5f5;
+      min-height: 100vh;
+      padding: 2rem;
+      display: grid;
+      place-items: center;
+    }
+
+    /* =============================================
+       Main Grid Container
+    ============================================= */
+    .grid-container {
+      /* Define a 3-column, 2-row grid */
+      display: grid;
+      
+      /* Three equal-width columns */
+      grid-template-columns: repeat(3, 1fr);
+      
+      /* Two rows - auto height based on content */
+      grid-template-rows: repeat(2, 80px);
+      
+      /* Gap between grid items (both row and column) */
+      gap: 1.5rem;
+      
+      /* Optional: maximum width for better display on large screens */
+      width: 100%;
+      max-width: 960px;
+    }
+
+    /* =============================================
+       Individual Grid Items
+    ============================================= */
+    .grid-item {
+      /* Visual styling */
+      background-color: #6b7280;
+      color: white;
+      
+      /* Center content perfectly */
+      display: grid;
+      place-items: center;
+      
+      /* Typography */
+      font-size: 1.5rem;
+      font-weight: bold;
+      
+      /* Rounded corners and subtle shadow */
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      
+      /* Smooth transition on hover */
+      transition: all 0.2s ease;
+    }
+
+    /* Optional: different colors for visual interest */
+    .grid-item:nth-child(1) { background-color: #ef4444; } /* red    */
+    .grid-item:nth-child(2) { background-color: #f59e0b; } /* amber  */
+    .grid-item:nth-child(3) { background-color: #10b981; } /* emerald*/
+    .grid-item:nth-child(4) { background-color: #3b82f6; } /* blue   */
+    .grid-item:nth-child(5) { background-color: #8b5cf6; } /* violet */
+    .grid-item:nth-child(6) { background-color: #ec4899; } /* pink   */
+
+    .grid-item:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <div class="grid-container">
+      <div class="grid-item">Box 1</div>
+      <div class="grid-item">Box 2</div>
+      <div class="grid-item">Box 3</div>
+      <div class="grid-item">Box 4</div>
+      <div class="grid-item">Box 5</div>
+      <div class="grid-item">Box 6</div>
+    </div>
+  </main>
+
+</body>
+</html>

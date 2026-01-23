@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CSS Grid - Basic Website Layout</title>
+
+  <style>
+    /* =============================================
+       Reset & Base Styles
+    ============================================= */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* =============================================
+       Main Grid Container for the entire page
+    ============================================= */
+    .page-wrapper {
+      display: grid;
+      grid-template-columns: 240px 1fr;     /* sidebar | main content */
+      grid-template-rows: auto 1fr auto;    /* header | content area | footer */
+      grid-template-areas:
+        "header   header"
+        "sidebar  main"
+        "footer   footer";
+      min-height: 100vh;
+      gap: 0;   /* we'll control spacing inside sections */
+    }
+
+    /* =============================================
+       Grid Items + Layout Areas
+    ============================================= */
+    header {
+      grid-area: header;
+      background-color: #1e40af;
+      color: white;
+      padding: 1.8rem 2rem;
+      text-align: center;
+    }
+
+    aside {
+      grid-area: sidebar;
+      background-color: #f1f5f9;
+      padding: 2rem 1.5rem;
+      border-right: 1px solid #e2e8f0;
+    }
+
+    main {
+      grid-area: main;
+      padding: 2rem;
+      background-color: white;
+    }
+
+    footer {
+      grid-area: footer;
+      background-color: #0f172a;
+      color: #cbd5e1;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    /* =============================================
+       Typography & Content Styling
+    ============================================= */
+    h1, h2 {
+      margin-bottom: 1rem;
+    }
+
+    nav ul {
+      list-style: none;
+    }
+
+    nav li {
+      margin: 0.8rem 0;
+    }
+
+    nav a {
+      color: #334155;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      color: #1e40af;
+      text-decoration: underline;
+    }
+
+    .content-card {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+
+    <header>
+      <h1>My Grid Website</h1>
+    </header>
+
+    <aside>
+      <h2>Sidebar</h2>
+      <nav>
+        <ul>
+          <li><a href="#">Dashboard</a></li>
+          <li><a href="#">Profile</a></li>
+          <li><a href="#">Messages</a></li>
+          <li><a href="#">Settings</a></li>
+          <li><a href="#">Logout</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main>
+      <h2>Welcome to the Main Content Area</h2>
+      
+      <div class="content-card">
+        <h3>Article One</h3>
+        <p>Hello, I am Shyam Shankar Pd. Mishra. I am learning WebDev from IIT Jammu WinterSession.</p>
+      </div>
+
+      <div class="content-card">
+        <h3>Article Two</h3>
+        <p>My learning experience is excellent.Everything is easygoing.</p>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 CSS Grid Practice.It is assignment 2</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

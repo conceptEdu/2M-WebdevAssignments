@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management System</title>
+</head>
+<body>
+
+    <h1>User Management System</h1>
+
+    <div id="input-container">
+        <input type="text" id="nameInput" placeholder="Full Name">
+        <input type="email" id="emailInput" placeholder="Email Address">
+        <select id="roleInput">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+            <option value="guest">Guest</option>
+        </select>
+        <button id="addUserBtn">Create User</button>
+    </div>
+
+    <hr>
+
+    <div id="controls">
+        <input type="text" id="searchInput" placeholder="Search by name...">
+        <button onclick="displayUsers(allUsers)">Show All</button>
+        <button onclick="filterActive()">Show Active Only</button>
+        <select id="roleFilter" onchange="filterByRole(this.value)">
+            <option value="">Filter by Role</option>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+            <option value="guest">Guest</option>
+        </select>
+    </div>
+
+    <h3>User List</h3>
+    <div id="userDisplay">Loading users...</div>
+
+    <script>
+        // --- Data Structure ---
+        let allUsers = JSON.parse(localStorage.getItem('system_users')) || [];
+
+        // --- Async Simulation (Promise & setTimeout) ---
+        const fetchUsersAsync = () => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (allUsers) {
+                        resolve(allUsers);
+                    } else {
+                        reject("Failed to fetch data.");
+                    }
+                }, 1000);
+            });
+        };
+
+        // --- Core Functions ---
+        const renderUI = (usersArray) => {
+            const container = document.getElementById('userDisplay');
+            container.innerHTML = "";
+
+            if (usersArray.length === 0) {
+                container.innerHTML = "<p>No users found.</p>";
+                return;
+            }
+
+            // Using .map() to generate elements
+            usersArray.map(user => {
+                const card = document.createElement('div');
+                card.style.borderBottom = "1px solid #ccc";
+                card.style.padding = "10px";
+                
+                card.innerHTML = `
+                    <strong>${user.name}</strong> (${user.email}) <br>
+                    ID: ${user.id} | Role: <b>${user.role}</b> | 
+                    Status: ${user.isActive ? "✅ Active" : "❌ Inactive"} <br>
+                    <button onclick="toggleActive(${user.id})">Toggle Status</button>
+                    <button onclick="deleteUser(${user.id})">Delete</button>
+                `;
+                container.appendChild(card);
+            });
+        };
+
+        const addUser = () => {
+            const name = document.getElementById('nameInput').value;
+            const email = document.getElementById('emailInput').value;
+            const role = document.getElementById('roleInput').value;
+
+            try {
+                if (!name || !email) throw new Error("Name and Email are required!");
+
+                const newUser = {
+                    id: Date.now(),
+                    name,
+                    email,
+                    role,
+                    isActive: true
+                };
+
+                // Spread Operator to avoid direct mutation
+                allUsers = [...allUsers, newUser];
+                syncData();
+                clearInputs();
+            } catch (error) {
+                alert(error.message);
+            }
+        };
+
+        const deleteUser = (id) => {
+            // Using .filter() (Non-mutating)
+            allUsers = allUsers.filter(user => user.id !== id);
+            syncData();
+        };
+
+        const toggleActive = (id) => {
+            // Using .find() and .map()
+            allUsers = allUsers.map(user => 
+                user.id === id ? { ...user, isActive: !user.isActive } : user
+            );
+            syncData();
+        };
+
+        // --- Filters ---
+        const filterActive = () => {
+            const activeUsers = allUsers.filter(user => user.isActive === true);
+            renderUI(activeUsers);
+        };
+
+        const filterByRole = (role) => {
+            if (!role) return renderUI(allUsers);
+            const filtered = allUsers.filter(user => user.role === role);
+            renderUI(filtered);
+        };
+
+        // --- Bonus: Search & Storage ---
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const results = allUsers.filter(user => user.name.toLowerCase().includes(term));
+            renderUI(results);
+        });
+
+        const syncData = () => {
+            localStorage.setItem('system_users', JSON.stringify(allUsers));
+            renderUI(allUsers);
+        };
+
+        const clearInputs = () => {
+            document.getElementById('nameInput').value = "";
+            document.getElementById('emailInput').value = "";
+        };
+
+        // --- Event Loop Awareness ---
+        console.log("1. Synchronous: Script starts execution."); // First
+
+        setTimeout(() => {
+            console.log("3. setTimeout: Pushed to Task Queue (Macro-task). Executed after Promise."); // Third
+        }, 0);
+
+        Promise.resolve().then(() => {
+            console.log("2. Promise: Pushed to Micro-task Queue. Executed after Sync code but before setTimeout."); // Second
+        });
+
+        // --- Initialization ---
+        document.getElementById('addUserBtn').addEventListener('click', addUser);
+
+        // Async/Await Bonus usage
+        const init = async () => {
+            try {
+                const data = await fetchUsersAsync();
+                renderUI(data);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                console.log("Simulation Finished.");
+            }
+        };
+
+        init();
+    </script>
+</body>
+</html>
